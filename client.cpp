@@ -2,7 +2,7 @@
 #include <QtNetwork>
 
 #include "client.h"
-#include "server.h"
+//#include "server.h"
 
 Client::Client(QWidget *parent)
     : QDialog(parent)
@@ -201,7 +201,7 @@ void Client::sessionOpened()
     enableGetFortuneButton();
 }
 
-void Server::sessionOpened()
+void Client::sessionOpened_server()
 {
     // Save the used configuration
     if (networkSession) {
@@ -244,7 +244,7 @@ void Server::sessionOpened()
                          .arg(ipAddress).arg(tcpServer->serverPort()));
 }
 
-void Server::sendFortune()
+void Client::sendFortune()
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
