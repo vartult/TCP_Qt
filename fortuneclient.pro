@@ -2,8 +2,7 @@
 QT += network widgets
 requires(qtConfig(combobox))
 
-HEADERS       = client.h \
-    server.h
+HEADERS       = client.h
 SOURCES       = client.cpp \
                 main.cpp
 
