@@ -11,6 +11,8 @@ Client::Client(QWidget *parent)
     , getFortuneButton(new QPushButton(tr("Get Text")))
     , tcpSocket(new QTcpSocket(this))
 {
+
+
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     hostCombo->setEditable(true);
     // find out name of this machine
@@ -94,7 +96,31 @@ Client::Client(QWidget *parent)
     setWindowTitle(QGuiApplication::applicationDisplayName());
     portLineEdit->setFocus();
 
+    ///////////////////////////////////////////
     QNetworkConfigurationManager manager;
+    if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
+        // Get saved network configuration
+        QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
+        settings.beginGroup(QLatin1String("QtNetwork"));
+        const QString id = settings.value(QLatin1String("DefaultNetworkConfiguration")).toString();
+        settings.endGroup();
+
+        // If the saved network configuration is not currently discovered use the system default
+        QNetworkConfiguration config = manager.configurationFromIdentifier(id);
+        if ((config.state() & QNetworkConfiguration::Discovered) !=
+            QNetworkConfiguration::Discovered) {
+            config = manager.defaultConfiguration();
+        }
+
+        networkSession = new QNetworkSession(config, this);
+        connect(networkSession, &QNetworkSession::opened, this, &Client::sessionOpened_server);
+
+        statusLabel->setText(tr("Opening network session."));
+        networkSession->open();
+    } else {
+        sessionOpened_server();
+    }
+    //////////////////////////////////////////
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         // Get saved network configuration
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
@@ -116,6 +142,47 @@ Client::Client(QWidget *parent)
         statusLabel->setText(tr("Opening network session."));
         networkSession->open();
     }
+
+    /////////////////////////////////////////////////////////////////////
+    fortunes << tr("Sending Text");
+//             << tr("You've got to think about tomorrow.")
+//             << tr("You will be surprised by a loud noise.")
+//             << tr("You will feel hungry again in another hour.")
+//             << tr("You might have mail.")
+//             << tr("You cannot kill time without injuring eternity.")
+//             << tr("Computers are not intelligent. They only think they are.");
+    //auto quitButton = new QPushButton(tr("Quit"));
+    quitButton->setAutoDefault(false);
+    connect(quitButton, &QAbstractButton::clicked, this, &QWidget::close);
+    connect(tcpServer, &QTcpServer::newConnection, this, &Client::sendFortune);
+
+//    auto buttonLayout = new QHBoxLayout;
+//    buttonLayout->addStretch(1);
+//    buttonLayout->addWidget(quitButton);
+//    buttonLayout->addStretch(1);
+
+//    QVBoxLayout *mainLayout = nullptr;
+//    if (QGuiApplication::styleHints()->showIsFullScreen() || QGuiApplication::styleHints()->showIsMaximized()) {
+//        auto outerVerticalLayout = new QVBoxLayout(this);
+//        outerVerticalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding));
+//        auto outerHorizontalLayout = new QHBoxLayout;
+//        outerHorizontalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Ignored));
+//        auto groupBox = new QGroupBox(QGuiApplication::applicationDisplayName());
+//        mainLayout = new QVBoxLayout(groupBox);
+//        outerHorizontalLayout->addWidget(groupBox);
+//        outerHorizontalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Ignored));
+//        outerVerticalLayout->addLayout(outerHorizontalLayout);
+//        outerVerticalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding));
+//    } else {
+//        mainLayout = new QVBoxLayout(this);
+//    }
+
+//    mainLayout->addWidget(statusLabel);
+//    mainLayout->addLayout(buttonLayout);
+
+//    setWindowTitle(QGuiApplication::applicationDisplayName());
+    /////////////////////////////////////////////////////////////////////
+
 }
 
 void Client::requestNewFortune()
@@ -242,6 +309,7 @@ void Client::sessionOpened_server()
     statusLabel->setText(tr("The server is running on\n\nIP: %1\nport: %2\n\n"
                             "Run the Fortune Client example now.")
                          .arg(ipAddress).arg(tcpServer->serverPort()));
+
 }
 
 void Client::sendFortune()
