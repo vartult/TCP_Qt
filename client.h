@@ -36,6 +36,7 @@ private:
     QComboBox *hostCombo = nullptr;
     QLineEdit *portLineEdit = nullptr;
     QLabel *statusLabel = nullptr;
+    QLabel *fetchtext = nullptr;
     QPushButton *getFortuneButton = nullptr;
 
     QTcpServer *tcpServer = nullptr;

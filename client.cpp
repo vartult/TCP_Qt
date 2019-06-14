@@ -47,6 +47,8 @@ Client::Client(QWidget *parent)
 
     statusLabel = new QLabel(tr("Client "
                                 ));
+    fetchtext = new QLabel(tr("Message will appear here"
+                                ));
 
     getFortuneButton->setDefault(true);
     getFortuneButton->setEnabled(false);
@@ -91,7 +93,8 @@ Client::Client(QWidget *parent)
     mainLayout->addWidget(portLabel, 1, 0);
     mainLayout->addWidget(portLineEdit, 1, 1);
     mainLayout->addWidget(statusLabel, 2, 0, 1, 2);
-    mainLayout->addWidget(buttonBox, 3, 0, 1, 2);
+    mainLayout->addWidget(fetchtext, 3, 0, 1, 2);
+    mainLayout->addWidget(buttonBox, 4, 0, 1, 2);
 
     setWindowTitle(QGuiApplication::applicationDisplayName());
     portLineEdit->setFocus();
@@ -144,13 +147,11 @@ Client::Client(QWidget *parent)
     }
 
     /////////////////////////////////////////////////////////////////////
-    fortunes << tr("Sending Text");
+    fortunes << tr("Hello Universe");
 //             << tr("You've got to think about tomorrow.")
 //             << tr("You will be surprised by a loud noise.")
 //             << tr("You will feel hungry again in another hour.")
-//             << tr("You might have mail.")
-//             << tr("You cannot kill time without injuring eternity.")
-//             << tr("Computers are not intelligent. They only think they are.");
+
     //auto quitButton = new QPushButton(tr("Quit"));
     quitButton->setAutoDefault(false);
     connect(quitButton, &QAbstractButton::clicked, this, &QWidget::close);
@@ -209,7 +210,7 @@ void Client::readFortune()
     }
 
     currentFortune = nextFortune;
-    statusLabel->setText(currentFortune);
+    fetchtext->setText(currentFortune);
     getFortuneButton->setEnabled(true);
 }
 
@@ -306,8 +307,8 @@ void Client::sessionOpened_server()
     // if we did not find one, use IPv4 localhost
     if (ipAddress.isEmpty())
         ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
-    statusLabel->setText(tr("The server is running on\n\nIP: %1\nport: %2\n\n"
-                            "Run the Fortune Client example now.")
+    statusLabel->setText(tr("\nThe server is running on\n\nIP: %1\nport: %2\n"
+                            )
                          .arg(ipAddress).arg(tcpServer->serverPort()));
 
 }
