@@ -149,7 +149,8 @@ Client::Client(QWidget *parent)
     /////////////////////////////////////////////////////////////////////
     fortunes << tr("Hello Universe")
     << tr("It's a fine day")
-    << tr("JetBrains Mindit");
+    << tr("JetBrains Mindit")
+    << tr("BuggyMinds my blog");
 
 
     //auto quitButton = new QPushButton(tr("Quit"));
