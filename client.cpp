@@ -45,9 +45,9 @@ Client::Client(QWidget *parent)
     auto portLabel = new QLabel(tr("S&erver port:"));
     portLabel->setBuddy(portLineEdit);
 
-    statusLabel = new QLabel(tr("Client "
+    statusLabel = new QLabel(tr("Message Sender"
                                 ));
-    fetchtext = new QLabel(tr("Message will appear here"
+    fetchtext = new QLabel(tr("Message will appear here!!"
                                 ));
 
     getFortuneButton->setDefault(true);
@@ -196,19 +196,19 @@ void Client::displayError(QAbstractSocket::SocketError socketError)
     case QAbstractSocket::RemoteHostClosedError:
         break;
     case QAbstractSocket::HostNotFoundError:
-        QMessageBox::information(this, tr("Fortune Client"),
+        QMessageBox::information(this, tr("Message Sender"),
                                  tr("The host was not found. Please check the "
                                     "host name and port settings."));
         break;
     case QAbstractSocket::ConnectionRefusedError:
-        QMessageBox::information(this, tr("Fortune Client"),
+        QMessageBox::information(this, tr("Message Sender"),
                                  tr("The connection was refused by the peer. "
                                     "Make sure the fortune server is running, "
                                     "and check that the host name and port "
                                     "settings are correct."));
         break;
     default:
-        QMessageBox::information(this, tr("Fortune Client"),
+        QMessageBox::information(this, tr("Message Sender"),
                                  tr("The following error occurred: %1.")
                                  .arg(tcpSocket->errorString()));
     }

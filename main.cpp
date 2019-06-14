@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QApplication::setApplicationDisplayName(Client::tr("Client"));
+    QApplication::setApplicationDisplayName(Client::tr("Message Sender"));
 
     Client client;
     client.show();
