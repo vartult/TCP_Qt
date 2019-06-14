@@ -100,6 +100,7 @@ Client::Client(QWidget *parent)
     portLineEdit->setFocus();
 
     ///////////////////////////////////////////
+    //Server Code
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
         // Get saved network configuration
@@ -147,6 +148,7 @@ Client::Client(QWidget *parent)
     }
 
     /////////////////////////////////////////////////////////////////////
+    //server code
     fortunes << tr("Hello Universe")
     << tr("It's a fine day")
     << tr("JetBrains Mindit")
