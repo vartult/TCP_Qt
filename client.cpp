@@ -147,41 +147,16 @@ Client::Client(QWidget *parent)
     }
 
     /////////////////////////////////////////////////////////////////////
-    fortunes << tr("Hello Universe");
-//             << tr("You've got to think about tomorrow.")
-//             << tr("You will be surprised by a loud noise.")
-//             << tr("You will feel hungry again in another hour.")
+    fortunes << tr("Hello Universe")
+             << tr("It's a fine day")
+             << tr("JetBrains Mindit")
+             << tr("BuggyMinds my blog");
 
     //auto quitButton = new QPushButton(tr("Quit"));
     quitButton->setAutoDefault(false);
     connect(quitButton, &QAbstractButton::clicked, this, &QWidget::close);
     connect(tcpServer, &QTcpServer::newConnection, this, &Client::sendFortune);
 
-//    auto buttonLayout = new QHBoxLayout;
-//    buttonLayout->addStretch(1);
-//    buttonLayout->addWidget(quitButton);
-//    buttonLayout->addStretch(1);
-
-//    QVBoxLayout *mainLayout = nullptr;
-//    if (QGuiApplication::styleHints()->showIsFullScreen() || QGuiApplication::styleHints()->showIsMaximized()) {
-//        auto outerVerticalLayout = new QVBoxLayout(this);
-//        outerVerticalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding));
-//        auto outerHorizontalLayout = new QHBoxLayout;
-//        outerHorizontalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Ignored));
-//        auto groupBox = new QGroupBox(QGuiApplication::applicationDisplayName());
-//        mainLayout = new QVBoxLayout(groupBox);
-//        outerHorizontalLayout->addWidget(groupBox);
-//        outerHorizontalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::MinimumExpanding, QSizePolicy::Ignored));
-//        outerVerticalLayout->addLayout(outerHorizontalLayout);
-//        outerVerticalLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Ignored, QSizePolicy::MinimumExpanding));
-//    } else {
-//        mainLayout = new QVBoxLayout(this);
-//    }
-
-//    mainLayout->addWidget(statusLabel);
-//    mainLayout->addLayout(buttonLayout);
-
-//    setWindowTitle(QGuiApplication::applicationDisplayName());
     /////////////////////////////////////////////////////////////////////
 
 }
